@@ -1,0 +1,7 @@
+name: ClicklessSigns
+main: me.criztovyl.clicklesssigns.ClicklessSigns
+version: 2013-01-07-01
+prefix: ClicklessSigns
+commands:
+  ClicklessSigns:
+    usage: -.-
