@@ -1,4 +1,4 @@
-package me.criztovyl.clicklesssigns.tools;
+package me.criztovyl.clickless.tools;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -15,7 +15,7 @@ public class LocationTools {
 		World loc2World = loc2.getWorld();
 		return loc1X == loc2X && loc1Y == loc2Y && loc1Z == loc2Z && loc1World.equals(loc2World);
 	}
-	public static Location simpleize(Location loc){
+	public static Location simplify(Location loc){
 		return new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
 	}
 }

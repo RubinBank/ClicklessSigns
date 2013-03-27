@@ -1,10 +1,13 @@
-package me.criztovyl.clicklesssigns.config;
+package me.criztovyl.clickless.config;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class Config {
 	private static FileConfiguration conf = Bukkit.getServer().getPluginManager().getPlugin("ClicklessSigns").getConfig();
+	/**
+	 * @return The Database URL
+	 */
 	public static String getDbURL(){
 		return "jdbc:mysql://" + HostAddress() + "/" + HostDatabase() + "?user=" + HostUser() + "&password=" + HostPassword();
 	}
