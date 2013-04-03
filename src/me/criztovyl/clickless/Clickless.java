@@ -22,7 +22,7 @@ public class Clickless implements Listener{
 	 */
 	public Clickless(){
 		signs = new ArrayList<ClicklessSign>();
-		Bukkit.getPluginManager().registerEvents(this, Bukkit.getPluginManager().getPlugin("ClicklessSigns"));
+		Bukkit.getPluginManager().registerEvents(this, Bukkit.getPluginManager().getPlugin("Clickless"));
 	}
 	/**
 	 * Adds a new {@link ClicklessSign} to {@link Clickless}

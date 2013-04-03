@@ -2,6 +2,8 @@ package me.criztovyl.timeshift;
 
 import java.util.ArrayList;
 
+import me.criztovyl.clickless.ClicklessPlugin;
+
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,12 +22,14 @@ public class ShiftHelper implements Listener{
 		shifter = new ArrayList<MicroShift>();
 		Bukkit.getPluginManager().registerEvents(this, Bukkit.getPluginManager()
 				.getPlugin("Clickless"));
+		ClicklessPlugin.log("ShiftManager Registered Chat Event.");
 	}
 	/**
 	 * Adds a Micro Shifter
 	 * @param shifter The {@link MicroShift}
 	 */
 	public void addShifted(MicroShift shifter){
+		ClicklessPlugin.msg(shifter.getPlayer(), shifter.getQuestion());
 		this.shifter.add(shifter);
 	}
 	/**

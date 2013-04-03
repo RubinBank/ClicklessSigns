@@ -8,6 +8,7 @@ import me.criztovyl.timeshift.ShiftHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 /**
  * The "Main" Class for Bukkit.
@@ -66,5 +67,11 @@ public class ClicklessPlugin extends JavaPlugin{
 	 */
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		return true;
+	}
+	public static void msg(String playername, String msg){
+		Player p = Bukkit.getPlayer(playername);
+		if(p != null){
+			p.sendMessage(msg);
+		}
 	}
 }
