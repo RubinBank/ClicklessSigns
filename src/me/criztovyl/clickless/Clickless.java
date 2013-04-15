@@ -32,6 +32,7 @@ public class Clickless implements Listener{
 	 */
 	public void addClicklessSign(ClicklessSign sign){
 		signs.add(sign);
+		ClicklessPlugin.log("A Sign was Registered");
 	}
 	public void removeClicklessSignByTrigger(Location trigger){
 		for(int i = 0; i < signs.size(); i++){

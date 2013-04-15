@@ -1,5 +1,7 @@
 package me.criztovyl.clickless;
 
+import java.util.HashMap;
+
 import org.bukkit.Location;
 
 import me.criztovyl.timeshift.TimeShifter;
@@ -27,4 +29,8 @@ public interface ClicklessSign {
 	 * @return The {@link Location} of the Sign Trigger 
 	 */
 	Location getTrigger();
+	/**
+	 * @return extra Options, e.g. Creator or Place
+	 */
+	HashMap<String, String> getOptions();
 }
