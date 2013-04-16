@@ -2,7 +2,7 @@ package me.criztovyl.clickless;
 
 import java.util.ArrayList;
 
-import me.criztovyl.clickless.tools.LocationTools;
+import me.criztovyl.clickless.tools.LocationTool;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 /**
+ * \brief The object the controls all click less activity
  * A class that manages ingame actions click less
  * @author criztovyl
  *
@@ -26,14 +27,16 @@ public class Clickless implements Listener{
 	}
 	/**
 	 * Adds a new {@link ClicklessSign} to {@link Clickless}
-	 * @param loc The Sign Location
-	 * @param trigger The Sign Trigger
 	 * @param sign The {@link ClicklessSign}
 	 */
 	public void addClicklessSign(ClicklessSign sign){
 		signs.add(sign);
 		ClicklessPlugin.log("A Sign was Registered");
 	}
+	/**
+	 * Removes a ClicklessSign by his trigger location (if exists)
+	 * @param trigger The trigger location
+	 */
 	public void removeClicklessSignByTrigger(Location trigger){
 		for(int i = 0; i < signs.size(); i++){
 			if(signs.get(i).getTrigger().equals(trigger)){
@@ -42,7 +45,12 @@ public class Clickless implements Listener{
 		}
 		
 	}
+	/**
+	 * Removes a ClicklessSign by his location (if exists)
+	 * @param loc The Sign location
+	 */
 	public void removeClicklessSign(Location loc){
+		loc = new LocationTool(loc).simplify();
 		for(int i = 0; i < signs.size(); i++){
 			if(signs.get(i).getLocation().equals(loc)){
 				signs.remove(i);
@@ -56,13 +64,15 @@ public class Clickless implements Listener{
 	@EventHandler
 	void onPlayerMove(PlayerMoveEvent evt){
 		String p_n = evt.getPlayer().getName();
-		Location to = LocationTools.simplify(evt.getTo());
-		Location from = LocationTools.simplify(evt.getFrom());
-		if(!to.equals(from)){//Works
-			if(hasTrigger(to)){//Works
-				if(getSignByTrigger(to).getTimeShifter() != null){
-					//evt.getPlayer().sendMessage("Has Time Shifter"); Works
-					getSignByTrigger(to).getTimeShifter().addPlayer(p_n);
+		LocationTool toTool, fromTool;
+		toTool = new LocationTool(evt.getTo());
+		fromTool = new LocationTool(evt.getFrom());
+		Location to = toTool.simplify();
+		Location from = fromTool.simplify();
+		if(!toTool.sameBlock(fromTool.getLoc())){
+			if(hasTrigger(to)){
+				if(getSignByTrigger(to).getQuestioner() != null){
+					getSignByTrigger(to).getQuestioner().addPlayer(p_n);
 					return;
 				}
 				else{
@@ -71,23 +81,23 @@ public class Clickless implements Listener{
 				}
 			}
 			if(hasTrigger(from)){
-				if(getSignByTrigger(from).getTimeShifter() != null){
-					getSignByTrigger(from).getTimeShifter().removePlayer(p_n);
+				if(getSignByTrigger(from).getQuestioner() != null){
+					getSignByTrigger(from).getQuestioner().removePlayer(p_n);
 					return;
 				}
 			}
 		}
 	}
 	/**
-	 * Bukkit Stuff
+	 * Bukkit Event Stuff
 	 * @param evt
 	 */
 	@EventHandler
 	void onPlayerChat(AsyncPlayerChatEvent evt){
 		for(int i = 0; i < signs.size(); i++){
-			if(signs.get(i).getTimeShifter() != null){
-				if(signs.get(i).getTimeShifter().hasPlayer(evt.getPlayer().getName())){
-					signs.get(i).getTimeShifter().onChatAction(evt);
+			if(signs.get(i).getQuestioner() != null){
+				if(signs.get(i).getQuestioner().hasPlayer(evt.getPlayer().getName())){
+					signs.get(i).getQuestioner().onChatAction(evt);
 				}
 			}
 		}
@@ -98,7 +108,7 @@ public class Clickless implements Listener{
 	 * @return true if it's a Trigger, otherwise false;
 	 */
 	boolean hasTrigger(Location trigger){
-		trigger = LocationTools.simplify(trigger);
+		trigger =  new LocationTool(trigger).simplify();
 		for(int i = 0; i < signs.size(); i++){
 			if(signs.get(i).getTrigger().equals(trigger)){
 				return true;
@@ -131,5 +141,11 @@ public class Clickless implements Listener{
 			}
 		}
 		return null;
+	}
+	/**
+	 * @return All Signs
+	 */
+	public ArrayList<ClicklessSign> getSigns() {
+		return signs;
 	}
 }

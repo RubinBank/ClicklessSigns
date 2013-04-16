@@ -2,3 +2,6 @@ name: Clickless
 main: me.criztovyl.clickless.ClicklessPlugin
 version: 2013-04-03
 prefix: Clickless
+commands:
+  clickless:
+    usage: /clickless help

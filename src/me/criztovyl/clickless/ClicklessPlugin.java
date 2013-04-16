@@ -1,9 +1,11 @@
 package me.criztovyl.clickless;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import me.criztovyl.clickless.listeners.Listeners;
-import me.criztovyl.timeshift.ShiftHelper;
+import me.criztovyl.clickless.tools.ConsolePlayerMessage;
+import me.criztovyl.clickless.tools.LocationTool;
+import me.criztovyl.questioner.MicroQuestiones;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -11,6 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 /**
+ * \brief thos class is loaded by the CraftBukkit Server.
  * The "Main" Class for Bukkit.
  * @author criztovyl
  *
@@ -18,16 +21,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class ClicklessPlugin extends JavaPlugin{
 	private static Logger log;
 	private static Clickless clickless;
-	private static ShiftHelper shifthelper;
+	private static MicroQuestiones questiones;
 	/**
 	 * Bukkit Stuff
 	 */
 	public void onEnable(){
 		log = this.getLogger();
 		clickless = new Clickless();
-		shifthelper = new ShiftHelper();
+		questiones = new MicroQuestiones();
 		this.saveDefaultConfig();
-		Bukkit.getServer().getPluginManager().registerEvents(new Listeners(), this);
 		log.info("I'm there!");
 	}
 	/**
@@ -57,15 +59,32 @@ public class ClicklessPlugin extends JavaPlugin{
 		return clickless;
 	}
 	/**
-	 * @return The ShiftHelper Instance/Object
+	 * @return The MicroQuestiones Object
 	 */
-	public static ShiftHelper getShiftHelper(){
-		return shifthelper;
+	public static MicroQuestiones getMicroQuestions(){
+		return questiones;
 	}
 	/**
-	 * Bukkit Stuff
+	 * Bukkit Command Stuff
 	 */
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
+		ConsolePlayerMessage send = new ConsolePlayerMessage(sender);
+		if(cmd.getName().equalsIgnoreCase("clickless")){
+			ArrayList<ClicklessSign> signs = getClickless().getSigns();
+			if(args.length >= 0){
+				if(args[0].toLowerCase().equals("signs")){
+					String msg = signs.size() +" Signs:";
+					for(int i = 0; i < signs.size(); i++){
+						msg += new LocationTool(signs.get(i).getLocation()).getLocationString() + "\n";
+					}
+					send.sendMessage(msg);
+				}
+				if(args[0].toLowerCase().equals("help")){
+					send.sendMessage("/clickless signs: list all registered signs\n" +
+							"/clickless help: this help text");
+				}
+			}
+		}
 		return true;
 	}
 	public static void msg(String playername, String msg){

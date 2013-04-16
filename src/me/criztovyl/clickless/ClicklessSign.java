@@ -2,25 +2,27 @@ package me.criztovyl.clickless;
 
 import java.util.HashMap;
 
+import me.criztovyl.questioner.Questioner;
+
 import org.bukkit.Location;
 
-import me.criztovyl.timeshift.TimeShifter;
 /**
+ * \brief The Interface for a click less sign
  * The Interface of an click less sign
  * @author criztovyl
  *
  */
 public interface ClicklessSign {
 	/**
-	 * Sets the Action, e.g. bar("foo");
-	 * To use a TimeShifter leave blank.
+	 * Sets the Action, e.g. foo("bar");
+	 * Won't executed if there is a Questioner.
 	 */
 	void action(String p_n);
 	/**
-	 * @return The {@link TimeShifter}
-	 * If you want to use no TimeShifter leave blank.
+	 * @return The {@link Questioner}
+	 * If you wont to use a Questioner return null.
 	 */
-	TimeShifter getTimeShifter();
+	Questioner getQuestioner();
 	/**
 	 * @return The {@link Location} of the Sign
 	 */
