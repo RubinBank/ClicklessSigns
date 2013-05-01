@@ -9,10 +9,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
  */
 public interface Questioner{
 	/**
-	 * @return If the action was success true, otherwise false
-	 */
-	boolean getSuccess(String playername);
-	/**
 	 * The action to add a player to the questioner
 	 * @param playername
 	 */
@@ -22,11 +18,6 @@ public interface Questioner{
 	 * @param evt The {@link AsyncPlayerChatEvent}
 	 */
 	void onChatAction(AsyncPlayerChatEvent evt);
-	/**
-	 * The action executed if the questioner was success.
-	 * @param playername
-	 */
-	void afterChatAction(String playername);
 	/**
 	 * Removes a player from the questioner.
 	 * @param playername
